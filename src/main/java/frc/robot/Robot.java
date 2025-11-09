@@ -48,8 +48,8 @@ public class Robot extends TimedRobot {
     SparkMaxConfig leftDriveConfig = new SparkMaxConfig();
     SparkMaxConfig rightDriveConfig = new SparkMaxConfig();
 
-    leftDriveConfig.idleMode(IdleMode.kBrake);
-    rightDriveConfig.idleMode(IdleMode.kBrake).inverted(true);
+    leftDriveConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(50);
+    rightDriveConfig.idleMode(IdleMode.kBrake).inverted(true).smartCurrentLimit(50);
 
     leftDrive.configure(leftDriveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     rightDrive.configure(rightDriveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    robotDrive.arcadeDrive(-controller.getLeftY(), -controller.getRightX());
+    robotDrive.arcadeDrive(-controller.getLeftY()/2, -controller.getRightX());
   }
 
   @Override
