@@ -31,8 +31,8 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  private final SparkMax leftDrive = new SparkMax(2,MotorType.kBrushless);
-  private final SparkMax rightDrive = new SparkMax(24,MotorType.kBrushless); // dirty is 2
+  private final SparkMax leftDrive = new SparkMax(24,MotorType.kBrushless);
+  private final SparkMax rightDrive = new SparkMax(2,MotorType.kBrushless); // dirty is 2
   private final DifferentialDrive robotDrive = new DifferentialDrive(leftDrive::set, rightDrive::set);
   private final XboxController controller = new XboxController(0);
 
@@ -107,7 +107,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    robotDrive.arcadeDrive(-controller.getLeftY()/2, -controller.getRightX());
+    double driveSpeedMultiplier = controller.getRightBumperButton() ? 1.0 : 0.5;
+    double turnSpeedMultiplier = controller.getRightBumperButton() ? 1.0 : 0.7;
+    robotDrive.arcadeDrive(-controller.getLeftY()*driveSpeedMultiplier, -controller.getRightX()*turnSpeedMultiplier);
   }
 
   @Override
